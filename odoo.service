@@ -1,0 +1,14 @@
+[Unit]
+Description=Odoo 15 server daemon
+Requires=postgresql.service
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+SyslogIdentifier=odoo15
+PermissionsStartOnly=true
+ExecStart=/home/odoo/venv/bin/python3 /home/odoo/odoo-bin -c /home/odoo/odoo.conf
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target

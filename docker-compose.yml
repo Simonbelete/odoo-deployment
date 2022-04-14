@@ -1,0 +1,37 @@
+version: '3.7'
+
+networks:
+  odoo_deployment:
+    driver: bridge
+
+services:
+  postgresql:
+    image: odoo_deployment/postgresql
+    container_name: odoo_deployment_postgresql
+    build:
+      context: .
+      dockerfile: postgresql/Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD} 
+    volumes:
+      - './postgresql/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh'
+      - './postgresql/db:/var/lib/postgresql/data'
+    ports:
+      - '5432:5432'
+    networks:
+      - odoo_deployment
+  odoo:
+    image: odoo_deployment/odoo
+    container_name: odoo_deployment_odoo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './db:/var/lib/postgresql/data'
+      - './modules:/home/odoo/custom_modules'
+      - './odoo.service:/etc/systemd/system/odoo.service'
+    ports:
+      - '8069:8070'
+      - '8072:8073'
+    networks:
+      - odoo_deployment
