@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class TestModel(models.Model):
     _name = "test.model"
@@ -38,8 +38,11 @@ class TestModel(models.Model):
 
     @api.depends('offer_ids.price')
     def _compute_best_price(self):
+        # Fix for compute failed for create
+        self.best_price = 0
         for record in self:
-            record.best_price = max(record.mapped('offer_ids.price'))
+            if(len(record.mapped('offer_ids.price')) > 0):
+                record.best_price = max(record.mapped('offer_ids.price'), 0)
 
     def action_sold(self):
         for record in self:
@@ -53,3 +56,9 @@ class TestModel(models.Model):
         for record in self:
             record.status = 'Canceled'
         return True
+
+    @api.constrains('name')
+    def _check_name(self):
+        for record in self:
+            if(len(record.name) < 3):
+                raise ValidationError('Name Char must be at least more than 2 char long')
