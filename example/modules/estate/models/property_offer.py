@@ -8,3 +8,13 @@ class PropertyOffer(models.Model):
     status = fields.Selection([('Accepted', 'accepted'), ('Refused', 'refused')])
     partner_id = fields.Many2one('res.partner', required = True)
     property_id = fields.Many2one('test.model', required = True)
+
+    def action_accept(self):
+        for record in self:
+            record.status = 'Accepted'
+        return True
+
+    def action_refused(self):
+        for record in self:
+            record.status = 'Refused'
+        return True

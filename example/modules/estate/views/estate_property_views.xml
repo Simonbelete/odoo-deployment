@@ -37,6 +37,8 @@
                 <field name="price" />
                 <field name="status" />
                 <field name="partner_id" widget="many2one_partners" />
+                <button name="action_accept" type="object" icon="fa-check" />
+                <button name="action_refused" type="object" icon="fa-times" />
             </tree>
         </field>
     </record>
@@ -49,16 +51,72 @@
         <field name="model">test.model</field>
         <field name="arch" type="xml">
             <form string="Test">
+                <header>
+                    <button name="action_sold" type="object" string="Sold"/>
+                    <button name="action_cancel" type="object" string="Canacled"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="name" />
+                            <field name="status" />
                         </group>
                         <group>
                             <field name="expected_price" />
                         </group>
                         <group String="Offers">
                             <field name="tag_ids" widget="many2many_tags" />
+                        </group>
+                        <group>
+                            <field name="description" />
+                        </group>
+                        <group>
+                            <field name="postcode" />
+                        </group>
+                        <group>
+                            <field name="date_availability" />
+                        </group>
+                        <group>
+                            <field name="expected_price" />
+                        </group>
+                        <group>
+                            <field name="selling_price" />
+                        </group>
+                        <group>
+                            <field name="bedrooms" />
+                        </group>
+                        <group>
+                            <field name="living_area" />
+                        </group>
+                        <group>
+                            <field name="facades" />
+                        </group>
+                        <group>
+                            <field name="garage" />
+                        </group>
+                        <group>
+                            <field name="garden" />
+                        </group>
+                        <group>
+                            <field name="garden_area" />
+                        </group>
+                        <group>
+                            <field name="garden_orientation" />
+                        </group>
+                        <group>
+                            <field name="active" />
+                        </group>
+                        <group>
+                            <field name="buyer" />
+                        </group>
+                        <group>
+                            <field name="sales_person" />
+                        </group>
+                        <group>
+                            <field name="total_area" />
+                        </group>
+                        <group>
+                            <field name="best_price" />
                         </group>
                         <notebook>
                             <page string="Description">
@@ -82,6 +140,8 @@
                 <field name="price" />
                 <field name="status" />
                 <field name="partner_id" />
+                <button name="action_accept" string="Accept" type="object" icon="fa-check" />
+                <button name="action_refused" string="Refused" type="object" icon="fa-times" />
             </form>
         </field>
     </record>
