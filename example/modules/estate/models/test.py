@@ -27,6 +27,7 @@ class TestModel(models.Model):
 
     tag_ids = fields.Many2many('property.tag.model', string = 'Tags')
     offer_ids = fields.One2many('property.offer.model', "property_id", string = "Offers")
+    # property_type_id = fields.Many2one('property.type.model')
 
     total_area = fields.Float(compute="_compute_total_area")
     best_price = fields.Float(compute="_compute_best_price")
@@ -42,7 +43,7 @@ class TestModel(models.Model):
         self.best_price = 0
         for record in self:
             if(len(record.mapped('offer_ids.price')) > 0):
-                record.best_price = max(record.mapped('offer_ids.price'), 0)
+                record.best_price = max(record.mapped('offer_ids.price'))
 
     def action_sold(self):
         for record in self:

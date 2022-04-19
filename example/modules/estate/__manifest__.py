@@ -13,6 +13,8 @@
         'views/estate_menus.xml',
 
         'views/property_type_views.xml',
-        'views/property_type_menus.xml'
+        'views/property_type_menus.xml',
+
+        'views/inherit_user_view.xml'
     ]
 }

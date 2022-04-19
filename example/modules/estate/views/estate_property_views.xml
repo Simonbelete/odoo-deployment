@@ -54,6 +54,7 @@
                 <header>
                     <button name="action_sold" type="object" string="Sold"/>
                     <button name="action_cancel" type="object" string="Canacled"/>
+                    <field name="status" widget="statusbar" statusbar_visible="sold"/>
                 </header>
                 <sheet>
                     <group>

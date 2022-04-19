@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="inherited_model_view_form" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.test</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <group>
+                    <field name="nick_name"/>
+                </group>
+            </xpath>
+            <notebook>
+                <page string="Real Estate Properities">
+                    <field name="property_ids" widget="one2many_names" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
