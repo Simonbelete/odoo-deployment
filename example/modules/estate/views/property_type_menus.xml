@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="property_type_root" name="Property Type">
+        <menuitem id="property_type_first_level_menu" name="Property Types" action="property_type_model_action" />
+    </menuitem>
+</odoo>

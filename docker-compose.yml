@@ -1,37 +1,34 @@
-version: '3.7'
-
-networks:
-  odoo_deployment:
-    driver: bridge
-
+version: '3.1'
 services:
-  postgresql:
-    image: odoo_deployment/postgresql
-    container_name: odoo_deployment_postgresql
-    build:
-      context: .
-      dockerfile: postgresql/Dockerfile
+  web:
+    image: odoo:15.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD} 
+      - PASSWORD_FILE=/run/secrets/postgresql_password
+    secrets:
+      - postgresql_password
+  db:
+    image: postgres:14.2
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgresql_password
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - './postgresql/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh'
-      - './postgresql/db:/var/lib/postgresql/data'
-    ports:
-      - '5432:5432'
-    networks:
-      - odoo_deployment
-  odoo:
-    image: odoo_deployment/odoo
-    container_name: odoo_deployment_odoo
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - './db:/var/lib/postgresql/data'
-      - './modules:/home/odoo/custom_modules'
-      - './odoo.service:/etc/systemd/system/odoo.service'
-    ports:
-      - '8069:8070'
-      - '8072:8073'
-    networks:
-      - odoo_deployment
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+    secrets:
+      - postgresql_password
+volumes:
+  odoo-web-data:
+  odoo-db-data:
+
+secrets:
+  postgresql_password:
+    file: odoo_pg_pass
